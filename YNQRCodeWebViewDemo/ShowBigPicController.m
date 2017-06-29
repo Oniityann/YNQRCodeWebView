@@ -11,6 +11,9 @@
 #import "UIView+YNAdd.h"
 #import <SafariServices/SafariServices.h>
 
+#define kSW [UIScreen mainScreen].bounds.size.width
+#define kSH [UIScreen mainScreen].bounds.size.height
+
 @interface ShowBigPicController () <NSURLSessionDelegate>
 
 @property (strong, nonatomic) UIScrollView *scrollView;
@@ -28,6 +31,8 @@
     [self basicConfigure];
     
     [self mainConfigure];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,12 +49,12 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backToFrontPage)];
     [self.view addGestureRecognizer:tap];
     
-    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width)];
+    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kSW, kSH)];
     [self.view addSubview:self.scrollView];
     
     self.imageView = [[UIImageView alloc] init];
     self.imageView.userInteractionEnabled = YES;
-    self.imageView.yn_centerY = self.view.frame.size.width * 0.5;
+    self.imageView.yn_centerY = kSH * 0.5;
     [self.imageView addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(imageLongPress)]];
     [self.scrollView addSubview:self.imageView];
 }
@@ -76,14 +81,14 @@
                 
                 UIImage *image = [UIImage imageWithData:imageData];
                 
-                CGFloat pictureW = self.view.frame.size.width;
+                CGFloat pictureW = kSW;
                 CGFloat pictureH = pictureW * image.size.height / image.size.width;
-                if (pictureH > self.view.frame.size.height) {
+                if (pictureH > kSH) {
                     self.imageView.frame = CGRectMake(0, 0, pictureW, pictureH);
                     self.scrollView.contentSize = CGSizeMake(0, pictureH);
                 } else {
                     self.imageView.yn_size = CGSizeMake(pictureW, pictureH);
-                    self.imageView.yn_centerY = self.view.frame.size.width * 0.5;
+                    self.imageView.yn_centerY = kSH * 0.5;
                 }
 //                [self.imageView sd_setImageWithURL:[NSURL URLWithString:self.imageURL]];
                 self.imageView.image = image;
