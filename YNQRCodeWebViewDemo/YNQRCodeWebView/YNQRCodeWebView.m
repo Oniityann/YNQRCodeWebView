@@ -157,7 +157,7 @@ didFinishSavingWithError:(NSError *)error
     [webView stringByEvaluatingJavaScriptFromString:jsGetImages];//注入js方法
     
     //注入自定义的js方法后别忘了调用 否则不会生效（不调用也一样生效了，，，不明白）
-    NSString *resurlt = [webView stringByEvaluatingJavaScriptFromString:@"getImages()"];
+    [webView stringByEvaluatingJavaScriptFromString:@"getImages()"];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
@@ -180,22 +180,12 @@ didFinishSavingWithError:(NSError *)error
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     
-    /**
-     
-     *  如果第一个手势是点击第二个是长按就返回NO 不支持同时响应长按和点击手势
-     
-     */
-    
     if ([otherGestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]] && [gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
-        
         return NO;
-        
     } else {
         
         return YES;
-        
     }
-    
 }
 
 - (UIViewController *)currentViewController {
